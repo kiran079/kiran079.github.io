@@ -19,6 +19,9 @@ function Header() {
 				<Button color="inherit" component={Link} to="/blog">
 					Blog
 				</Button>
+				<Button color="inherit" component={Link} to="/projects">
+					Projects
+				</Button>
 				<Button color="inherit" component={Link} to="/contact">
 					Contact
 				</Button>

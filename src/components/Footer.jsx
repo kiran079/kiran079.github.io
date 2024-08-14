@@ -5,7 +5,7 @@ function Footer() {
 	return (
 		<Box mt={5} py={3} bgcolor="grey.200" textAlign="center">
 			<Typography variant="body1">
-				&copy; 2024 My Personal Website. All rights reserved.
+				&copy; 2024. All rights reserved.
 			</Typography>
 		</Box>
 	);
