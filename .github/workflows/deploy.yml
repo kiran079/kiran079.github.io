@@ -8,25 +8,37 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    permissions:
+        contents: write
+    concurrency:
+        group: ${{ github.workflow }}-${{ github.ref }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '22'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build and deploy
-        env:
-            MY_EMAIL: kiran79bh@gmail.com
-            MY_NAME: kiran079
-        run: |
-            git config --global user.email $MY_EMAIL
-            git config --global user.name $MY_NAME
-            git remote set-url origin https://$MY_NAME:${{ secrets.MY_PASSWORD }}@github.com/$MY_NAME/$MY_NAME.github.io.git
-            npm run deploy
+        - uses: actions/checkout@v3
+  
+        - name: Setup Node
+          uses: actions/setup-node@v3
+          with:
+            node-version: '22'
+  
+        - name: Get yarn cache
+          id: yarn-cache
+          run: echo "YARN_CACHE_DIR=$(yarn cache dir)" >> "${GITHUB_OUTPUT}"
+  
+        - name: Cache dependencies
+          uses: actions/cache@v3
+          with:
+            path: ${{ steps.yarn-cache.outputs.YARN_CACHE_DIR }}
+            key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+            restore-keys: |
+              ${{ runner.os }}-yarn-
+  
+        - run: yarn install --frozen-lockfile
+        - run: yarn build
+        - run: yarn export
+  
+        - name: Deploy
+          uses: peaceiris/actions-gh-pages@v4
+          if: github.ref == 'refs/heads/main'
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_dir: ./build
