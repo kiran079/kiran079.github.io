@@ -3,4 +3,6 @@ export const QUOTES_LIST = [
 	"All that 'good' they did, all that work, and yet here they are, same as me.",
 	'A man can do as he will, but not will as he will.',
 	"If everybody is in on it... I'd have to be in on it too.",
+	"Well, if you can't tell, does it matter?",
+	"I do not play this instrument as well as I should wish to, but I have always supposed that to be my own fault, because I would not take the trouble of practicing."
 ];
