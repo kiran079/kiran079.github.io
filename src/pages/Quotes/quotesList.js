@@ -7,4 +7,5 @@ export const QUOTES_LIST = [
 	'I do not play this instrument as well as I should wish to, but I have always supposed that to be my own fault, because I would not take the trouble of practicing.',
 	"... live every day as if I've deliberately come back to this one day, to enjoy it as if it was the full final day of my extraordinary ordinary life.",
 	"What if this is a past life as well, and we are already something to each other in our next life? Who do you think we are then? ... See you then.",
+	"Any normal girl would call the number, meet him, return the album and see if her dream is viable. It's called a reality check. The last thing Amélie wants.",
 ];
