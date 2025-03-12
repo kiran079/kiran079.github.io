@@ -25,7 +25,7 @@ const BlogPage = () => {
 					const text = await response.text();
 
 					const title = blog.title;
-					const description = text.substring(0, 100) + '...'; // First few words as description
+					const description = text.substring(0, 80) + '...'; // First few words as description
 
 					return { ...blog, title, description, content: text };
 				})
