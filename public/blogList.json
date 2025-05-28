@@ -20,6 +20,10 @@
         "title": "Federalist Papers: 6-8"
     },
     {
+        "id": "f_quotes",
+        "title": "Federalist Papers Quotes"
+    },
+    {
         "id": "ls",
         "title": "Only If"
     },
@@ -46,5 +50,9 @@
     {
         "id": "utc",
         "title": "Until Dusk Births Dawn"
+    },
+    {
+        "id": "itrv",
+        "title": "Calling Still"
     }
   ]
