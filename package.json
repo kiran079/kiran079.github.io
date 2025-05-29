@@ -11,6 +11,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "crypto-js": "^4.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.0",
@@ -20,6 +21,7 @@
   "scripts": {
     "predeploy": "npm run build && cp CNAME build/",
     "deploy": "gh-pages -d build",
+    "encrypt": "node src/scripts/encrypt-txt.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

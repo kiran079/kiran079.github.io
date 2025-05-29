@@ -1,7 +1,8 @@
 // src/pages/BlogPage.js
 import React, { useState, useEffect } from 'react';
-import { Container, Grid, Typography, Button, Box, ThemeProvider, createTheme } from '@mui/material';
+import { Container, Grid, Typography, Button, Box, ThemeProvider, createTheme, Input } from '@mui/material';
 import BlogCard from './BlogCard';
+import { decryptTextFile } from '../../scripts/decryptAndFetchTxt';
 
 const BlogPage = () => {
 	const [blogs, setBlogs] = useState([]);
@@ -43,6 +44,41 @@ const BlogPage = () => {
 		setSelectedBlog(selected); // Set the selected blog content
 	};
 
+	function splitOnFirstNewline(str) {
+		const index = str.indexOf('\n');
+		return [str.slice(0, index), str.slice(index + 1)];
+	  }	  
+
+	async function unlockPost() {
+		const response = await fetch('/blogListPrivate.json');
+		const blogListPrivate = await response.json();
+		const password = document.getElementById('password').value;
+
+		const blogsWithMetadata = await Promise.all(
+			blogListPrivate.map(async (blog) => {
+				const text = await decryptTextFile(
+					`/assets/blog/private/${blog.id}.txt`,
+					password
+				);
+				if (text) {
+					const split = splitOnFirstNewline(text);
+					const title = split[0].trim();
+					const content = split[1].trim();
+					const description = content.substring(0, 80) + '...'; // First few words as description
+
+					return { ...blog, title, description, content };
+				} else {
+					return null;
+				}
+			})
+		);
+		if (blogsWithMetadata && blogsWithMetadata[0]) {
+			setBlogs([...blogs, ...blogsWithMetadata]);
+		} else {
+			alert('Invalid password or failed to load post.');
+		}
+	  }
+
 	return (
 		<>
 			<Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
@@ -63,6 +99,8 @@ const BlogPage = () => {
 								</Grid>
 							))}
 						</Grid>
+						<Input id="password"/>
+						<Button onClick={_ => unlockPost()}>Submit</Button>
 					</>
 				) : (
 					<Box sx={{ mt: 4 }}>
