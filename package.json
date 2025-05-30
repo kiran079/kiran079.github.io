@@ -19,11 +19,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "predeploy": "npm run build && cp CNAME build/ && rm -rf build/assets/blog/private-raw",
-    "deploy": "gh-pages -d build",
+    "predeploy": "npm run build && cp CNAME build/",
+    "deploy": "gh-pages -d build --no-history",
     "encrypt": "node src/scripts/encrypt-txt.js",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && rm -rf build/assets/blog/private-raw",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
