@@ -2,9 +2,9 @@
 import React from 'react';
 import { Card, CardContent, Typography, CardActionArea } from '@mui/material';
 
-const BlogCard = ({ title, description, id, onClick }) => {
+const BlogCard = ({ title, description, id, bg, onClick }) => {
 	return (
-		<Card>
+		<Card sx={{ backgroundColor: bg }}>
 			<CardActionArea onClick={onClick}>
 				<CardContent>
 					<Typography gutterBottom variant="h5" component="div">

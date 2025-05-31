@@ -3,9 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { Container, Grid, Typography, Button, Box, ThemeProvider, createTheme, Input } from '@mui/material';
 import BlogCard from './BlogCard';
 import { decryptTextFile } from '../../scripts/decryptAndFetchTxt';
+import { SOFT_LAVENDER, WHITE } from '../../constants/colors';
 
 const BlogPage = () => {
 	const [blogs, setBlogs] = useState([]);
+	const [unlocked, setUnlocked] = useState(false);
 	const [selectedBlog, setSelectedBlog] = useState(null); // To store the selected blog content
     const theme = createTheme({
         typography: {
@@ -49,6 +51,13 @@ const BlogPage = () => {
 		return [str.slice(0, index), str.slice(index + 1)];
 	  }	  
 
+	async function handleKeyDown(e) {
+		if (e.key === 'Enter') {
+			e.preventDefault();
+			unlockPost();
+		  }
+	}
+
 	async function unlockPost() {
 		const response = await fetch('/blogListPrivate.json');
 		const blogListPrivate = await response.json();
@@ -66,18 +75,30 @@ const BlogPage = () => {
 					const content = split[1].trim();
 					const description = content.substring(0, 80) + '...'; // First few words as description
 
-					return { ...blog, title, description, content };
+					return { ...blog, title, description, content, private: true };
 				} else {
 					return null;
 				}
 			})
 		);
 		if (blogsWithMetadata && blogsWithMetadata[0]) {
+			setUnlocked(true);
 			setBlogs([...blogs, ...blogsWithMetadata]);
 		} else {
 			alert('Invalid password or failed to load post.');
 		}
 	  }
+
+	const getPasswordInput = () => {
+		return !unlocked ? (
+			<div>
+				<Input id="password" type="password" onKeyDown={(e) => handleKeyDown(e)}/>
+				<Button onClick={(_) => unlockPost()}>Submit</Button>
+			</div>
+		) : (
+			<></>
+		);
+	}
 
 	return (
 		<>
@@ -94,13 +115,13 @@ const BlogPage = () => {
 										id={blog.id}
 										title={blog.title}
 										description={blog.description}
+										bg={blog.private ? SOFT_LAVENDER: WHITE}
 										onClick={() => loadBlogContent(blog.id)} // Load blog content on click
 									/>
 								</Grid>
 							))}
 						</Grid>
-						<Input id="password"/>
-						<Button onClick={_ => unlockPost()}>Submit</Button>
+						{getPasswordInput()}
 					</>
 				) : (
 					<Box sx={{ mt: 4 }}>
