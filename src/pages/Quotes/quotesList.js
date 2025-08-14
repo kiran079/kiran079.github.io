@@ -11,5 +11,6 @@ export const QUOTES_LIST = [
 	"They say you need countless lifetimes of fate to meet even once in this life. If you miss it when it brushes past, that's the end.",
 	"I have been living in this country nine years longer than you have. Do you realize that?",
 	"Always resignation and acceptance. Always prudence and honour and duty. Elinor, where is your heart?",
-	"But this means you exist only for the purpose of clearing away the sand, doesn't it?"
+	"But this means you exist only for the purpose of clearing away the sand, doesn't it?",
+	"Memories warm you up from the inside. But they also tear you apart."
 ];
